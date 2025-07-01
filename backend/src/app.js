@@ -5,6 +5,12 @@ dotenv.config();
 
 const db = require('./utils/db');
 
+require('./models/user');
+require('./models/photo');
+require('./models/category');
+require('./models/favourite');
+require('./models/relations');
+
 const usersRoute = require('./routes/usersRoute');
 const photosRoute = require('./routes/photosRoute');
 const categoriesRoute = require('./routes/categoriesRoute');
@@ -16,7 +22,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 //middleware
-app.use(cors)
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -25,16 +31,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static('uploads'));
 
 //routes
-app.use('/api/users', usersRoute);
-app.use('/api/photos', photosRoute);
-app.use('/api/categories', categoriesRoute);
-app.use('/api/favourites', favouritesRoute);
-app.use('/api/auth', authRoutes);
+// app.use('/api/users', usersRoute);
+// app.use('/api/photos', photosRoute);
+// app.use('/api/categories', categoriesRoute);
+// app.use('/api/favourites', favouritesRoute);
+// app.use('/api/auth', authRoutes);
 
 //testowe
-app.get('/', (req, res) => {
-  res.send('Portfolio backend running...');
-});
+// app.get('/', (req, res) => {
+//   res.send('Portfolio backend running...');
+// });
 
 //bledy
 app.use((error, req, res, next) => {
@@ -47,10 +53,9 @@ app.use((error, req, res, next) => {
 //polaczenie z baza
 db.sync()
     .then(res => {
-        console.log("DB connected")
-        app.listen(port, () => {
-            console.log('Server is running')
+        console.log("DB connected");
+        app.listen(port);
         })
         .catch(err => 
             console.log(err));
-    })
+    

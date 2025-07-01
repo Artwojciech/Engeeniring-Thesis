@@ -1,7 +1,7 @@
-const User = require('./users');
-const Category = require('./categories');
-const Photo = require('./photos');
-const Favourite = require('./favourites');
+const User = require('./user');
+const Category = require('./category');
+const Photo = require('./photo');
+const Favourite = require('./favourite');
 
 
 User.belongsToMany(Photo, {
