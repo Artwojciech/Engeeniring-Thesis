@@ -31,7 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static('uploads'));
 
 //routes
-// app.use('/api/users', usersRoute);
+app.use('/api/users', usersRoute);
 // app.use('/api/photos', photosRoute);
 // app.use('/api/categories', categoriesRoute);
 // app.use('/api/favourites', favouritesRoute);

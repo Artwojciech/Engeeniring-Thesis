@@ -10,7 +10,11 @@ const generateTokens = (user) => {
   return { accessToken, refreshToken };
 };
 
-const registerUser = async ({ username, email, password, age }) => {
+const registerUser = async ({ username, email, age, password }) => {
+  if (password.length < 8) {
+    throw new Error('Password must have at least 8 characters');
+  }
+
   const existingUsername = await User.findOne({ where: { username } });
   if (existingUsername) throw new Error('Username already taken');
 
