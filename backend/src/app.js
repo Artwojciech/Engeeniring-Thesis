@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 dotenv.config();
+const path = require('path');
 
 const db = require('./utils/db');
 
@@ -28,12 +29,12 @@ app.use(express.urlencoded({ extended: true }));
 
 
 //uploads zeby dzialaly sciezki z bazy
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 //routes
 app.use('/api/users', usersRoute);
-// app.use('/api/photos', photosRoute);
-// app.use('/api/categories', categoriesRoute);
+app.use('/api/photos', photosRoute);
+app.use('/api/categories', categoriesRoute);
 // app.use('/api/favourites', favouritesRoute);
 app.use('/api/auth', authRoutes);
 
