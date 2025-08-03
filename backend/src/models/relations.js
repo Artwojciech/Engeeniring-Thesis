@@ -24,6 +24,16 @@ Photo.belongsTo(Category, {
   foreignKey: 'category_id'
 });
 
+Favourite.belongsTo(Photo, {
+  foreignKey: 'photo_id',
+  as: 'photo'
+});
+
+Favourite.belongsTo(User, {
+  foreignKey: 'user_id',
+  as: 'user'
+});
+
 module.exports = {
   User,
   Category,

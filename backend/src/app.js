@@ -35,7 +35,7 @@ app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 app.use('/api/users', usersRoute);
 app.use('/api/photos', photosRoute);
 app.use('/api/categories', categoriesRoute);
-// app.use('/api/favourites', favouritesRoute);
+app.use('/api/favourites', favouritesRoute);
 app.use('/api/auth', authRoutes);
 
 //testowe
