@@ -41,11 +41,13 @@ const refreshToken = async (req, res) => {
 
 const getCurrentUser = async (req, res) => {
   try {
-    res.status(200).json({ user: req.user });
+    const user = await authService.getUserById(req.user.id); 
+    res.status(200).json({ user });
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 module.exports = {
   register,

@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const photoController = require('../controllers/photosController');
 const upload = require('../middleware/uploadMiddleware');
-const { verifyToken, verifyAdmin } = require('../middleware/authMiddleware');
+const { verifyToken } = require('../middleware/authMiddleware');
+const { verifyAdmin } = require('../middleware/roleMiddleware')
 
 router.get('/:id', photoController.getPhoto);
 router.get('/category/:categoryId', photoController.getPhotosByCategory);
