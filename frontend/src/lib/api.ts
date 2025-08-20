@@ -1,7 +1,7 @@
 import axios from "axios";
 import { logoutUser } from "@/services/auth";
 
-const API_URL = "http://localhost:4000/api/auth"; 
+const API_URL = "http://localhost:4000/api"; 
 
 let accessToken: string | null = localStorage.getItem("accessToken");
 let refreshToken: string | null = localStorage.getItem("refreshToken");
@@ -41,7 +41,7 @@ api.interceptors.response.use(
 
       try {
         const res = await axios.post(
-          `${API_URL}/refresh-token`,
+          `${API_URL}/auth/refresh-token`,
           {},
           { headers: { "x-refresh-token": refreshToken } }
         );

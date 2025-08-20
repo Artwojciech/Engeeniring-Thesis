@@ -11,20 +11,24 @@ import LoginPage from "@/pages/LoginPage";
 import RegisterPage from "@/pages/RegisterPage";
 import NotFoundPage from "@/pages/NotFoundPage";
 
-//na jutro do zrobienia jakos owinac to w layout wszystko nie zapomniec o tym!!!
+import MainLayout from "@/layouts/MainLayout";
+
 function App() {
   return (
     <AuthProvider>       
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutMe />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/equipment" element={<Equipment />} />
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutMe />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/equipment" element={<Equipment />} />
+            <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/favourites" element={<FavouritesPage />} />
+          </Route>
+
           <Route path="/signin" element={<LoginPage />} />
           <Route path="/signup" element={<RegisterPage />} />
-          <Route path="/gallery" element={<GalleryPage />} />
-          <Route path="/favourites" element={<FavouritesPage />} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

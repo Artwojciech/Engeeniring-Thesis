@@ -26,21 +26,21 @@ export interface Tokens {
 }
 
 export const loginUser = async (data: LoginRequest): Promise<{ user: User; tokens: Tokens }> => {
-  const res = await api.post("/login", data);
+  const res = await api.post("/auth/login", data);
   const { user, tokens } = res.data;
   setTokens(tokens.accessToken, tokens.refreshToken);
   return { user, tokens };
 };
 
 export const registerUser = async (data: RegisterRequest): Promise<{ user: User; tokens: Tokens }> => {
-  const res = await api.post("/register", data);
+  const res = await api.post("/auth/register", data);
   const { user, tokens } = res.data;
   setTokens(tokens.accessToken, tokens.refreshToken);
   return { user, tokens };
 };
 
 export const getCurrentUser = async (): Promise<User> => {
-  const res = await api.get("/current");
+  const res = await api.get<{ user: User }>("/auth/current");
   return res.data.user;
 };
 
