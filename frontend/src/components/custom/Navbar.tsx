@@ -84,7 +84,7 @@ export default function Navbar() {
               {/* Gallery */}
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="bg-transparent">Gallery</NavigationMenuTrigger>
-                <NavigationMenuContent className="!bg-navbg">
+                <NavigationMenuContent className="!bg-navbg z-10">
                   <ul className="grid gap-2 p-2 w-40">  
                     <li className="flex flex-col">
                       {categories.map((cat) => (
@@ -112,7 +112,7 @@ export default function Navbar() {
               {/* Info */}
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="bg-transparent">Info</NavigationMenuTrigger>
-                <NavigationMenuContent className="!bg-navbg">
+                <NavigationMenuContent className="!bg-navbg z-10">
                   <ul className="grid gap-2 p-2 w-40">
                     <li>
                       <NavigationMenuLink asChild>
