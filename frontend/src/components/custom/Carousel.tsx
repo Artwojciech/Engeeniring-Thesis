@@ -48,7 +48,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                 <img
                     src={src.large} 
                     srcSet={`${src.small} 1080w, ${src.large} 1920w`}
-                    sizes="(max-width: 768px) 1080px, 1920px"
+                    sizes="100vw"
                     alt={`Slide ${index + 1}`}
                     className="w-full h-full object-cover"
                     loading={index === 0 ? 'eager' : 'lazy'}
