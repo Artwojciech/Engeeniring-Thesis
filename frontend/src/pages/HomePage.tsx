@@ -47,7 +47,7 @@ export default function HomePage() {
         <div className="flex items-center justify-center bg-homeside p-10">
               <div className="max-w-md text-left -ml-18">
                 <h2 className="text-6xl font-semibold mb-6 text-footerbg">
-                  For me, photography is not just a job...
+                  For me, photography is more than just a job...
                 </h2>
                 <p className="text-footerbg mb-12 font-merri">
                   I firmly believe that services which I provide simply aren't your typical photoshoots.
@@ -60,15 +60,15 @@ export default function HomePage() {
                 <ul className="space-y-4">
                   <li className="flex items-center gap-3">
                     <ArrowLongRightIcon className="w-6 h-6 text-footerbg flex-shrink-0" />
-                    <span className="text-footerbg text-lg">Stunning fashion takes</span>
+                    <span className="text-footerbg text-lg">Stunning fashion shots</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <ArrowLongRightIcon className="w-6 h-6 text-footerbg flex-shrink-0" />
-                    <span className="text-footerbg text-lg">Complete media care bundle during basketball games and other sport events</span>
+                    <span className="text-footerbg text-lg">Complete media bundle during basketball games and other sport events</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <ArrowLongRightIcon className="w-6 h-6 text-footerbg flex-shrink-0" />
-                    <span className="text-footerbg text-lg">Street and Wildlife photography prints ideal as an interior decoration</span>
+                    <span className="text-footerbg text-lg">Street and Wildlife photography prints, ideal as an interior decoration</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <ArrowLongRightIcon className="w-6 h-6 text-footerbg flex-shrink-0" />
@@ -76,11 +76,11 @@ export default function HomePage() {
                   </li>
                   <li className="flex items-center gap-3">
                     <ArrowLongRightIcon className="w-6 h-6 text-footerbg flex-shrink-0" />
-                    <span className="text-footerbg text-lg">Commercial photoshoots of a product and real estates</span>
+                    <span className="text-footerbg text-lg">Tailor-made Commercial photoshoots</span>
                   </li>
                   <li className="flex items-center gap-3">
                     <ArrowLongRightIcon className="w-6 h-6 text-footerbg flex-shrink-0" />
-                    <span className="text-footerbg text-lg">Personal photo sessions adjusted to a model</span>
+                    <span className="text-footerbg text-lg">Personal photo sessions adjusted to the client</span>
                   </li>
                 </ul>
               </div>

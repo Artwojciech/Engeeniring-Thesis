@@ -13,9 +13,12 @@ import NotFoundPage from "@/pages/NotFoundPage";
 
 import MainLayout from "@/layouts/MainLayout";
 
+import { Toaster } from "@/components/ui/sonner"
+
 function App() {
   return (
-    <AuthProvider>       
+    <AuthProvider>      
+      <Toaster position="top-center" />  
       <BrowserRouter>
         <Routes>
           <Route element={<MainLayout />}>
