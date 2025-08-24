@@ -18,10 +18,10 @@ const registerUser = async ({ username, email, age, password }) => {
 
 
   const existingUsername = await User.findOne({ where: { username } });
-  if (existingUsername) throw new Error('Username already taken');
+  if (existingUsername) throw new Error('username already taken');
 
   const existingEmail = await User.findOne({ where: { email } });
-  if (existingEmail) throw new Error('Email already has account');
+  if (existingEmail) throw new Error('email already has account');
 
   const hashedPassword = await bcrypt.hash(password, 10);
   const newUser = await User.create({

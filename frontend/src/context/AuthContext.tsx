@@ -12,6 +12,14 @@ interface AuthContextType {
   loading: boolean;
 }
 
+interface AxiosErr {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
+
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -39,9 +47,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const register = async (username: string, email: string, age: string, password: string) => {
+  try {
     const { user } = await registerUser({ username, email, age, password });
     setUser(user);
-  };
+  } catch (err: unknown) {
+    const AxiosErr = err as AxiosErr;
+    const message = AxiosErr.response?.data?.message || "Failed to create account";
+    throw new Error(message);
+  }
+};
 
   const logout = () => {
     logoutUser();

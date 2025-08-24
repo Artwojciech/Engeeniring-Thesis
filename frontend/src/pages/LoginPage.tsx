@@ -14,6 +14,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 
+import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
+
 export default function SignInPage() {
   const {login} = useAuth();
   const navigate = useNavigate();
@@ -21,6 +23,7 @@ export default function SignInPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSignIn = async () => {
@@ -49,7 +52,7 @@ export default function SignInPage() {
       <div className="flex flex-col gap-4 w-full max-w-sm">
         <Card className="bg-navbg border-footerbg">
           <CardHeader className="-mb-3">
-            <CardTitle className="text-2xl text-center">Sign In</CardTitle>
+            <CardTitle className="text-2xl text-center">Sign in</CardTitle>
             <CardDescription className="mt-4">
               Provide login details to sign in
             </CardDescription>
@@ -65,25 +68,39 @@ export default function SignInPage() {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required
+                  className="border-footerbg"
                 />
               </div>
-              <div className="grid gap-2">
+              <div className="grid gap-2 relative">
                 <Label htmlFor="password">password</Label>
                 <Input
                   id="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="*********"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
+                  className="pr-10 border-footerbg"
                 />
+                {/*dla buttona uzywam takiej dziwnej liczby dla top bo to odpowiada 7,5 jednostki zeby bylo rowno*/}
+                <button                                                              
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-2 top-[1.875rem] text-footerbg"             
+                >
+                  {showPassword ? (
+                    <EyeSlashIcon className="h-5 w-5" />
+                  ) : (
+                    <EyeIcon className="h-5 w-5" />
+                  )}
+                </button>
               </div>
               <Button
-                className="w-full z-20"
+                className="w-full z-20 cursor-pointer"
                 onClick={handleSignIn}
                 disabled={isLoading}
               >
-                {isLoading ? "Logging..." : "Sign In"}
+                {isLoading ? "Logging..." : "Sign in"}
               </Button>
             </div>
 
