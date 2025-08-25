@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Shadows+Into+Light&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Shadows+Into+Light&display=swap');
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -47,10 +48,12 @@
   --color-navbg: #d3d3d3;
   --color-footerbg: #202020;
   --color-homeside: #E8E8E8;
+  --color-aboutpages: #E5E5E5;
 
   --font-georgia: Georgia, serif;
   --font-shadows: "Shadows Into Light", cursive;
   --font-merri: "Merriweather", serif;
+  --font-aboutfont: "Edu NSW ACT Cursive", cursive;
 }
 
 :root {

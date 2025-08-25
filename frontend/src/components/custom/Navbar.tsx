@@ -55,7 +55,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-full border-b shadow-sm bg-navbg">
+    <nav className="w-full border-b shadow-sm bg-navbg sticky top-0 z-50">
       <div className="w-full flex items-center justify-between py-6 px-4 md:px-14">
         
         {/* Left side: logo + Instagram */}
