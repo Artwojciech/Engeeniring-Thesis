@@ -46,41 +46,41 @@ export default function HomePage() {
         </div>
         <div className="flex items-center justify-center bg-homeside p-10">
               <div className="max-w-md text-left -ml-18">
-                <h2 className="text-6xl font-semibold mb-6 text-footerbg">
+                <h2 className="text-6xl 2xl:text-7xl font-semibold mb-6 text-footerbg">
                   For me, photography is more than just a job...
                 </h2>
-                <p className="text-footerbg mb-12 font-merri">
+                <p className="2xl:text-lg text-footerbg mb-12 font-merri">
                   I firmly believe that services which I provide simply aren't your typical photoshoots.
                   They form a profound bond built upon mutual ideas and distinct personalities.
                 </p>
                 <div className="flex items-center gap-1 mb-7">
-                  <ChevronDoubleRightIcon className="w-10 h-10 text-footerbg" />
-                  <h3 className="text-3xl font-semibold">Services</h3>
+                  <ChevronDoubleRightIcon className="w-10 h-10 2xl:w-12 2xl:h-12 text-footerbg" />
+                  <h3 className="text-4xl font-semibold">Services</h3>
                 </div>
                 <ul className="space-y-4">
                   <li className="flex items-center gap-3">
-                    <ArrowLongRightIcon className="w-6 h-6 text-footerbg flex-shrink-0" />
-                    <span className="text-footerbg text-lg">Stunning fashion shots</span>
+                    <ArrowLongRightIcon className="w-6 h-6 2xl:w-7 2xl:h-7 text-footerbg flex-shrink-0" />
+                    <span className="text-footerbg text-lg 2xl:text-xl">Stunning fashion shots</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <ArrowLongRightIcon className="w-6 h-6 text-footerbg flex-shrink-0" />
-                    <span className="text-footerbg text-lg">Complete media bundle during basketball games and other sport events</span>
+                    <ArrowLongRightIcon className="w-6 h-6 2xl:w-7 2xl:h-7 text-footerbg flex-shrink-0" />
+                    <span className="text-footerbg text-lg 2xl:text-xl">Complete media bundle during basketball games and other sport events</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <ArrowLongRightIcon className="w-6 h-6 text-footerbg flex-shrink-0" />
-                    <span className="text-footerbg text-lg">Street and Wildlife photography prints, ideal as an interior decoration</span>
+                    <ArrowLongRightIcon className="w-6 h-6 2xl:w-7 2xl:h-7 text-footerbg flex-shrink-0" />
+                    <span className="text-footerbg text-lg 2xl:text-xl">Street and Wildlife photography prints, ideal as an interior decoration</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <ArrowLongRightIcon className="w-6 h-6 text-footerbg flex-shrink-0" />
-                    <span className="text-footerbg text-lg">Atmospheric Concert coverage</span>
+                    <ArrowLongRightIcon className="w-6 h-6 2xl:w-7 2xl:h-7 text-footerbg flex-shrink-0" />
+                    <span className="text-footerbg text-lg 2xl:text-xl">Atmospheric Concert coverage</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <ArrowLongRightIcon className="w-6 h-6 text-footerbg flex-shrink-0" />
-                    <span className="text-footerbg text-lg">Tailor-made Commercial photoshoots</span>
+                    <ArrowLongRightIcon className="w-6 h-6 2xl:w-7 2xl:h-7 text-footerbg flex-shrink-0" />
+                    <span className="text-footerbg text-lg 2xl:text-xl">Tailor-made Commercial photoshoots</span>
                   </li>
                   <li className="flex items-center gap-3">
-                    <ArrowLongRightIcon className="w-6 h-6 text-footerbg flex-shrink-0" />
-                    <span className="text-footerbg text-lg">Personal photo sessions adjusted to the client</span>
+                    <ArrowLongRightIcon className="w-6 h-6 2xl:w-7 2xl:h-7 text-footerbg flex-shrink-0" />
+                    <span className="text-footerbg text-lg 2xl:text-xl">Personal photo sessions adjusted to the client</span>
                   </li>
                 </ul>
               </div>

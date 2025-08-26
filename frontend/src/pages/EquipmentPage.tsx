@@ -8,7 +8,7 @@ import eq3large from "@/assets/eq3large.png";
 export default function EquipmentPage() {
   return (
     <div className="flex flex-col w-full">
-      <section className="w-full bg-aboutpages text-center py-14 px-6 relative z-5 shadow-[0_-12px_15px_rgba(0,0,0,0.10),0_12px_25px_rgba(0,0,0,0.20)] ">
+      <section className="w-full bg-aboutpages text-center py-14 px-6 relative z-5 shadow-[0_-12px_15px_rgba(0,0,0,0.10),0_12px_25px_rgba(0,0,0,0.20)]">
         <h1 className="text-3xl md:text-4xl font-aboutfont font-bold text-footerbg">EQUIPMENT</h1>
         <p className="text-sm md:text-base mt-6 text-footerbg font-merri">
           Although it's the photographer who takes the photo, everybody knows that gear matters. Beneath you have 
@@ -17,7 +17,7 @@ export default function EquipmentPage() {
       </section>
 
       <section className="w-full mx-auto py-16 px-8 grid grid-cols-1 md:grid-cols-3 gap-12 text-center bg-homeside">
-        <div>
+        <div className="flex flex-col items-center justify-start">
           <img
             src={eq1large}
             srcSet={`${eq1small} 1080w, ${eq1large} 1920w`}
@@ -27,8 +27,8 @@ export default function EquipmentPage() {
           />
           <p className="mt-4 text-footerbg">AF-S DX NIKKOR 18-105mm f/3.5-5.6G ED VR</p>
         </div>
-        <div>
-          <div className="flex flex-col items-center justify-center h-[500px] ">
+        <div className="flex flex-col items-center justify-center relative">
+          <div className="relative md:top-2/7 md:-translate-y-1/2">
             <img
               src={eq3large}
               srcSet={`${eq3small} 1080w, ${eq3large} 1920w`}
@@ -39,7 +39,7 @@ export default function EquipmentPage() {
             <p className="mt-4 text-footerbg">Nikon D7100</p>
           </div>
         </div>
-        <div>
+        <div className="flex flex-col items-center justify-start">
           <img
             src={eq2large}
             srcSet={`${eq2small} 1080w, ${eq2large} 1920w`}
