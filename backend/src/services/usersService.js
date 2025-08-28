@@ -11,7 +11,11 @@ const updateUsername = async (id, newUsername) => {
   user.username = newUsername;
   await user.save();
 
-  return user;
+  const safeUser = await User.findByPk(user.id, {
+    attributes: ["id", "username", "email", "age", "is_admin"]
+  });
+
+  return safeUser;
 };
 
 const updatePassword = async (id, currentPassword, newPassword) => {
@@ -21,17 +25,20 @@ const updatePassword = async (id, currentPassword, newPassword) => {
   const isMatch = await bcrypt.compare(currentPassword, user.password);
   if (!isMatch) throw new Error('Current password is incorrect');
 
-  //pamietac zeby dodatkowo dodac jakies wymagania do hasla ale narazie nie mam pomyslu jakie
-  //pamietac tez ze jak dodam kryteria tutaj to zeby dodac je tez w authservice przy register!!
-  if (newPassword.length < 8) {
-    throw new Error('New password must have at least 8 characters');
+  const checkPass = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+  if (!checkPass.test(newPassword)) {
+    throw new Error('u need 8 characters 1 upper letter and 1 number');
   }
 
   const hashedPassword = await bcrypt.hash(newPassword, 10);
   user.password = hashedPassword;
   await user.save();
 
-  return user;
+  const safeUser = await User.findByPk(user.id, {
+    attributes: ["id", "username", "email", "age", "is_admin"]
+  });
+
+  return safeUser;
 };
 
 module.exports = {

@@ -10,6 +10,7 @@ interface AuthContextType {
   register: (username: string, email: string, age: string, password: string) => Promise<void>;
   logout: () => void;
   loading: boolean;
+  setUser: (user: User | null) => void;
 }
 
 interface AxiosErr {
@@ -63,7 +64,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, register, logout, loading }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, register, logout, loading, setUser }}>
       {children}
     </AuthContext.Provider>
   );
