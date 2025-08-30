@@ -24,7 +24,7 @@ const Photo = db.define('Photo', {
   }
 }, {
   tableName: 'photos',
-  timestamps: false
+  timestamps: true
 });
 
 module.exports = Photo;

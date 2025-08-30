@@ -8,17 +8,28 @@ const getPhotoById = async (id) => {
   return photo;
 };
 
-const getPhotosByCategory = async (categoryId, title) => {
-  const photoFilter = {
-    category_id: categoryId,
+const getPhotosByCategory = async (categoryName, title, page = 1, limit = 20) => {
+  const category = await Category.findOne({ where: { name: categoryName } });
+  if (!category) throw new Error('Category not found');
+
+  const photoFilter = { category_id: category.id };
+  if (title) photoFilter.title = { [Op.iLike]: `%${title}%` };
+
+  const offset = (page - 1) * limit;
+
+  const { count, rows } = await Photo.findAndCountAll({
+    where: photoFilter,
+    limit,
+    offset,
+    order: [['createdAt', 'DESC']]
+  });
+
+  return {
+    photos: rows,
+    totalItems: count,
+    totalPages: Math.ceil(count / limit),
+    currentPage: page
   };
-
-  if (title) {
-    photoFilter.title = { [Op.iLike]: `%${title}%` };
-  }
-
-  const photos = await Photo.findAll({ where: photoFilter });
-  return photos;
 };
 
 const createPhoto = async ({ title, filename, category }) => {
@@ -52,7 +63,7 @@ const deletePhoto = async (id) => {
 
   const filePath = path.join(__dirname, '..', '..', 'uploads', category.name, photo.filename);
 
-  if (fs.existsSync(filePath)) {
+  if (fs.existsSync(filePath)) { 
     fs.unlinkSync(filePath);
   }
 

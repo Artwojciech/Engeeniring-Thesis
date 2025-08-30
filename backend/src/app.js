@@ -52,7 +52,7 @@ app.use((error, req, res, next) => {
 });
 
 //polaczenie z baza
-db.sync()
+db.sync({ alter: true })
     .then(res => {
         console.log("DB connected");
         app.listen(port);

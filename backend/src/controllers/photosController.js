@@ -10,12 +10,18 @@ const getPhoto = async (req, res) => {
 };
 
 const getPhotosByCategory = async (req, res) => {
-  const { categoryId } = req.params;
-  const { title } = req.query;
-
   try {
-    const photos = await photoService.getPhotosByCategory(categoryId, title);
-    res.status(200).json(photos);
+    const { page = 1, limit = 20, title } = req.query;
+    const { categoryName } = req.params;
+
+    const result = await photoService.getPhotosByCategory(
+      categoryName,
+      title,
+      parseInt(page),
+      parseInt(limit)
+    );
+
+    res.json(result);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
