@@ -1,3 +1,4 @@
+import type { Category } from './categories';
 import { api } from "@/lib/api";
 
 export interface Photo {
@@ -5,6 +6,7 @@ export interface Photo {
   title?: string | null;
   filename: string;
   category_id: string;
+  category?: Category;
 }
 
 export interface PaginatedPhotos {

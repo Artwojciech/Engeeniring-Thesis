@@ -3,9 +3,9 @@ const favouritesService = require('../services/favouritesService');
 const getFavourites = async (req, res) => {
   try {
     const userId = req.user.id;
-    const {sort='asc', from=null, to=null} = req.query;
+    const {sort='asc', from=null, to=null, page = 1, limit = 20} = req.query;
 
-    const favourites = await favouritesService.getFavourites(userId, sort, from, to);
+    const favourites = await favouritesService.getFavourites(userId, sort, from, to, parseInt(page), parseInt(limit));
     res.json(favourites);
   } catch (error) {
     res.status(400).json({ message: error.message });

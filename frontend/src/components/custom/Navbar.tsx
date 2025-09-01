@@ -46,7 +46,7 @@ export default function Navbar() {
 
   const handleFavouritesClick = () => {
     if (!isAuthenticated) {
-      toast.error("Musisz być zalogowany, aby zobaczyć ulubione.");
+      toast.error("You have to be signed in to see favourites");
     } else {
       navigate("/favourites");
     }

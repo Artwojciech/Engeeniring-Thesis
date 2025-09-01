@@ -3,7 +3,7 @@ const Favourite = require('../models/favourite');
 const Photo = require('../models/photo');
 const Category = require('../models/category');
 
-const getFavourites = async (userId, sort = 'asc', from = null, to = null) => {
+const getFavourites = async (userId, sort = 'asc', from = null, to = null, page = 1, limit = 20) => {
   const where = { user_id: userId };
 
   if (from || to) {
@@ -22,8 +22,12 @@ const getFavourites = async (userId, sort = 'asc', from = null, to = null) => {
     } 
   }
 
-  const favourites = await Favourite.findAll({
+  const offset = (page - 1) * limit;
+
+  const { count, rows } = await Favourite.findAll({
     where,
+    limit,
+    offset,
     order: [['added_at', sort.toLowerCase() === 'desc' ? 'DESC' : 'ASC']],
     include: [
       {
@@ -34,7 +38,12 @@ const getFavourites = async (userId, sort = 'asc', from = null, to = null) => {
     ]
   });
 
-  return favourites.map(fav => fav.photo);
+  return {
+    photos: rows.map(fav => fav.photo),
+    totalItems: count,
+    totalPages: Math.ceil(count / limit),
+    currentPage: page
+  };
 };
 
 const addFavourite = async (userId, photoId) => {
