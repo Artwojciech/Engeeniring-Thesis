@@ -24,7 +24,7 @@ const getFavourites = async (userId, sort = 'asc', from = null, to = null, page 
 
   const offset = (page - 1) * limit;
 
-  const { count, rows } = await Favourite.findAll({
+  const { count, rows } = await Favourite.findAndCountAll({
     where,
     limit,
     offset,

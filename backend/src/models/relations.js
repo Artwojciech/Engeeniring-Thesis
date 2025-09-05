@@ -21,7 +21,8 @@ Category.hasMany(Photo, {
 });
 
 Photo.belongsTo(Category, {
-  foreignKey: 'category_id'
+  foreignKey: 'category_id',
+  as: 'category'
 });
 
 Favourite.belongsTo(Photo, {

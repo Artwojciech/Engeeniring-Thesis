@@ -11,6 +11,7 @@ import {
   PaginationPrevious,
   PaginationEllipsis,
 } from "@/components/ui/pagination";
+import ShowPhoto from "@/components/custom/ShowPhoto";
 
 export default function GalleryPage() {
   const [searchParams] = useSearchParams();
@@ -75,13 +76,15 @@ export default function GalleryPage() {
         <>
           <div className="px-2 md:px-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
             {photos.map((photo) => (
-              <div key={photo.id} className="relative w-full h-40 rounded overflow-hidden border">
-                <img
-                  src={`http://localhost:4000/${photo.filename}`}
-                  alt={photo.title || "photo"}
-                  className="w-full h-full object-cover cursor-pointer hover:scale-105 transition"
-                />
-              </div>
+              <ShowPhoto key={photo.id} photo={photo}>
+                <div className="relative w-full h-40 rounded overflow-hidden border cursor-pointer">
+                  <img
+                    src={`http://localhost:4000/${photo.filename}`}
+                    alt={photo.title || "photo"}
+                    className="w-full h-full object-cover hover:scale-105 transition"
+                  />
+                </div>
+              </ShowPhoto>
             ))}
           </div>
 
