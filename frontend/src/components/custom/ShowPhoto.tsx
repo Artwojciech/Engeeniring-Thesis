@@ -14,23 +14,28 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { HeartIcon } from "@heroicons/react/24/solid"; 
-import { addFavourite, deleteFavourite } from "@/services/favourites";
+import { addFavourite, deleteFavourite, isFavourite as isFavouriteMethod } from "@/services/favourites";
 
 interface ShowPhotoProps {
   photo: Photo;
   children: React.ReactNode;
+  onFavouritesChange?: () => void;
 }
 
-export default function ShowPhoto({ photo, children }: ShowPhotoProps) {
+export default function ShowPhoto({ photo, children, onFavouritesChange }: ShowPhotoProps) {
   const { user } = useAuth();
   const isAdmin = !!user?.is_admin;
+
+  const [open, setOpen] = useState(false);
 
   const [backendTitle, setBackendTitle] = useState<string>(photo.title || "");
   const [tempTitle, setTempTitle] = useState<string>(photo.title || "");
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
+
   const [isFavourite, setIsFavourite] = useState(false);
   const [favLoading, setFavLoading] = useState(false);
+  const [changedFavourite, setChangedFavourite] = useState(false);
 
   useEffect(() => {
     const t = photo.title || "";
@@ -38,6 +43,22 @@ export default function ShowPhoto({ photo, children }: ShowPhotoProps) {
     setTempTitle(t);
     setIsEditing(false);
   }, [photo.id, photo.title]);
+
+  useEffect(() => {
+    let active = true;
+    if (open && user) {
+      isFavouriteMethod(photo.id)
+        .then((res) => {
+          if (active) setIsFavourite(res);
+        })
+        .catch((err) =>
+          console.error("Failed to fetch favourite status", err)
+        );
+    }
+    return () => {
+      active = false;
+    };
+  }, [photo.id, user, open]);
 
   const handleSave = async () => {
     const tempTrim = tempTitle.trim();
@@ -70,6 +91,7 @@ export default function ShowPhoto({ photo, children }: ShowPhotoProps) {
         await addFavourite(photo.id);
         setIsFavourite(true);
       }
+      setChangedFavourite(true);
     } catch (err) {
       console.error("Failed to toggle favourite", err);
     } finally {
@@ -82,10 +104,21 @@ export default function ShowPhoto({ photo, children }: ShowPhotoProps) {
     setTempTitle(backendTitle);
   };
 
+  const handleOpenChange = (openState: boolean) => {
+    if (openState) {
+      setChangedFavourite(false);
+    } else {
+      if (changedFavourite) {
+        onFavouritesChange?.();
+      }
+    }
+    setOpen(openState);
+  };
+
   const showTitleBlock = isAdmin || Boolean(backendTitle.trim());
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={handleOpenChange}> 
       <DialogTrigger asChild>{children}</DialogTrigger>
 
       <DialogContent

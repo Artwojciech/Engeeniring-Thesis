@@ -63,8 +63,16 @@ const deleteFavourite = async (userId, photoId) => {
   }
 };
 
+const isFavourite = async (userId, photoId) => {
+  const fav = await Favourite.findOne({
+    where: { user_id: userId, photo_id: photoId }
+  });
+  return !!fav;
+};
+
 module.exports = {
   getFavourites,
   addFavourite,
-  deleteFavourite
+  deleteFavourite,
+  isFavourite
 };

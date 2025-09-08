@@ -53,3 +53,17 @@ export const deleteFavourite = async (photoId: string): Promise<void> => {
     throw new Error(message);
   }
 };
+
+export const isFavourite = async (photoId: string): Promise<boolean> => {
+  try {
+    const res = await api.get<{ isFavourite: boolean }>(`/favourites/${photoId}`);
+    return res.data.isFavourite;
+  } catch (err: unknown) {
+    const AxiosErr = err as AxiosErr;
+    const message =
+      AxiosErr.response?.data?.message || "Failed to check favourite status";
+    throw new Error(message);
+  }
+};
+
+

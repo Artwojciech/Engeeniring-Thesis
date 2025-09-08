@@ -36,8 +36,21 @@ const deleteFavourite = async (req, res) => {
   }
 };
 
+const isFavourite = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { photoId } = req.params;
+
+    const result = await favouritesService.isFavourite(userId, photoId);
+    res.json({ isFavourite: result });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getFavourites,
   addFavourite,
-  deleteFavourite
+  deleteFavourite,
+  isFavourite
 };
