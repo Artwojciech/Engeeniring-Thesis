@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import type { Photo } from "@/services/gallery";
 import { useAuth } from "@/hooks/useAuth";
-import { updatePhoto } from "@/services/gallery";
+import { updatePhoto, deletePhoto } from "@/services/gallery";
 import {
   Dialog,
   DialogContent,
@@ -15,14 +15,16 @@ import {
 } from "@heroicons/react/24/outline";
 import { HeartIcon } from "@heroicons/react/24/solid"; 
 import { addFavourite, deleteFavourite, isFavourite as isFavouriteMethod } from "@/services/favourites";
+import { toast } from "sonner";
 
 interface ShowPhotoProps {
   photo: Photo;
   children: React.ReactNode;
   onFavouritesChange?: () => void;
+  deleted?: () => void;
 }
 
-export default function ShowPhoto({ photo, children, onFavouritesChange }: ShowPhotoProps) {
+export default function ShowPhoto({ photo, children, onFavouritesChange, deleted }: ShowPhotoProps) {
   const { user } = useAuth();
   const isAdmin = !!user?.is_admin;
 
@@ -36,6 +38,12 @@ export default function ShowPhoto({ photo, children, onFavouritesChange }: ShowP
   const [isFavourite, setIsFavourite] = useState(false);
   const [favLoading, setFavLoading] = useState(false);
   const [changedFavourite, setChangedFavourite] = useState(false);
+
+  const imgRef = useRef<HTMLImageElement>(null);
+  const [imgWidth, setImgWidth] = useState(0);
+
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     const t = photo.title || "";
@@ -115,6 +123,22 @@ export default function ShowPhoto({ photo, children, onFavouritesChange }: ShowP
     setOpen(openState);
   };
 
+  const handleDeletePhoto = async () => {
+    try {
+      setDeleting(true);
+      await deletePhoto(photo.id);
+      toast.success("Photo was deleted");
+      setDeleteDialogOpen(false);
+      setOpen(false);
+      deleted?.();
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to delete photo");
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   const showTitleBlock = isAdmin || Boolean(backendTitle.trim());
 
   return (
@@ -122,20 +146,38 @@ export default function ShowPhoto({ photo, children, onFavouritesChange }: ShowP
       <DialogTrigger asChild>{children}</DialogTrigger>
 
       <DialogContent
-        className="w-auto max-h-[95vh] p-0 bg-transparent border-none shadow-none flex flex-col items-center gap-0 overflow-auto [&>button:first-of-type]:hidden"
+        className="w-auto max-h-[90vh] p-0 bg-transparent border-none shadow-none flex flex-col items-center gap-0 overflow-auto [&>button:first-of-type]:hidden"
+        style={{ maxWidth: "60vw" }}
       >
         <div className="relative inline-block ">
           <div className="relative">
             <img
+              ref={imgRef}
               src={`http://localhost:4000/${photo.filename}`}
               alt={backendTitle || "photo"}
-              className="block w-full h-auto max-h-[90vh] object-contain"
+              className="block max-w-[60vw] max-h-[85vh] object-contain"
               draggable={false}
+              onLoad={() => {
+                if (imgRef.current) setImgWidth(imgRef.current.offsetWidth);
+              }}
             />
+            {photo.category && (
+              <div className="absolute top-0 left-0 bg-homeside/50 border-r-2 border-b-2 border-footerbg px-1 py-1 flex items-start justify-center"
+                  style={{
+                    writingMode: "vertical-lr",
+                    textOrientation: "upright",
+                    zIndex: 20,
+                  }}
+              >
+                <p className="text-sm font-aboutfont text-footerbg m-0" >
+                  {photo.category.name}
+                </p>
+              </div>
+            )}
+
             <button
               onClick={toggleFavourite}
               disabled={favLoading}
-              aria-label="Toggle favourite"
               className={`cursor-pointer absolute bottom-2 right-2 z-30 p-2 rounded-full transition focus:outline-none focus:ring-0 ${
                 isFavourite ? "bg-red-900 hover:bg-red-950" : "bg-black/70 hover:bg-black"
               }`}
@@ -149,7 +191,7 @@ export default function ShowPhoto({ photo, children, onFavouritesChange }: ShowP
           </DialogClose>
 
           {showTitleBlock && (
-            <div className="relative w-full bg-white border-2 border-footerbg px-3 py-2 box-border">
+            <div className="relative w-full bg-homeside border-r-2 border-l-2 border-b-2  border-footerbg px-3 py-2 box-border" style={{ width: imgWidth }}>
               {isEditing ? (
                 <div className="flex items-center gap-2">
                   <input
@@ -167,21 +209,19 @@ export default function ShowPhoto({ photo, children, onFavouritesChange }: ShowP
                     onClick={handleSave}
                     disabled={loading}
                     className="text-footerbg disabled:opacity-50"
-                    aria-label="Zapisz tytuł"
                   >
                     <CheckIcon className="w-5 h-5" />
                   </button>
                   <button
                     onClick={handleCancel}
                     className="text-footerbg"
-                    aria-label="Anuluj edycję"
                   >
                     <XMarkIcon className="w-5 h-5" />
                   </button>
                 </div>
               ) : (
                 <>
-                  <h3 className="text-lg font-semibold text-black m-0 break-words whitespace-pre-wrap">
+                  <h3 className="text-lg font-aboutfont text-black m-0 break-words whitespace-pre-wrap">
                     {backendTitle.trim() ? backendTitle : "\u00A0"}
                   </h3>
                   {isAdmin && (
@@ -190,8 +230,7 @@ export default function ShowPhoto({ photo, children, onFavouritesChange }: ShowP
                         setTempTitle(backendTitle);
                         setIsEditing(true);
                       }}
-                      className="absolute top-2 right-2 ml-2 text-gray-600 hover:text-black"
-                      aria-label="Edytuj tytuł"
+                      className="absolute top-2 right-2 ml-2 text-gray-600 hover:text-black cursor-pointer"
                     >
                       <PencilSquareIcon className="w-5 h-5" />
                     </button>
@@ -200,14 +239,36 @@ export default function ShowPhoto({ photo, children, onFavouritesChange }: ShowP
               )}
             </div>
           )}
-
-          {photo.category && (
-            <div className="w-full bg-white border-2 border-footerbg px-3 py-1 box-border">
-              <p className="text-sm text-black m-0 break-words whitespace-pre-wrap">
-                {photo.category.name}
-              </p>
-            </div>
-          )}
+          {isAdmin && (
+              <div className="flex justify-end">
+                <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+                  <DialogTrigger asChild>
+                    <button className="bg-red-900 text-homeside px-3 py-1 rounded hover:bg-red-950 cursor-pointer">
+                      DELETE PHOTO
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent className="w-[300px] p-4 flex flex-col gap-4 [&>button:first-of-type]:cursor-pointer">
+                    <p className="text-black text-center">ARE YOU SURE YOU WANT TO DELETE THIS PHOTO?</p>
+                    <div className="flex justify-center gap-4">
+                      <button
+                        onClick={() => setDeleteDialogOpen(false)}
+                        className="px-5 py-1 border-2 rounded hover:bg-gray-200 cursor-pointer"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={handleDeletePhoto}
+                        disabled={deleting}
+                        className="px-5 py-1 bg-red-900 text-white rounded hover:bg-red-950 cursor-pointer"
+                      >
+                        Yes
+                      </button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </div>
+            )}
+          
         </div>
       </DialogContent>
     </Dialog>

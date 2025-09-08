@@ -22,11 +22,24 @@ export default function GalleryPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
 
+  const [title, setTitle] = useState("");
+  const [delayTitle, setDelayTitle] = useState(title);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDelayTitle(title);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [title]);
+
   const fetchPhotos = useCallback(async (page: number) => {
     if (!categoryName) return;
     setLoading(true);
     try {
-      const result = await getPhotosByCategory(categoryName, undefined, page, 20);
+      const result = await getPhotosByCategory(categoryName, delayTitle, page, 20);
       setPhotos(result.photos);
       setTotalPages(result.totalPages);
       setCurrentPage(result.currentPage);
@@ -35,7 +48,7 @@ export default function GalleryPage() {
     } finally {
       setLoading(false);
     }
-  }, [categoryName]);
+  }, [categoryName, delayTitle]);
 
   useEffect(() => {
     fetchPhotos(1);
@@ -70,13 +83,23 @@ export default function GalleryPage() {
         </h1>
       </section>
 
+      <div className="flex justify-center mb-6">
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="insert the title you are looking for..."
+          className="w-[300px] border border-footerbg rounded-md px-3 py-2 text-[1rem] font-thin focus:outline-none focus:ring-2 focus:ring-accent"
+        />
+      </div>
+
       {loading ? (
         <p>Loading...</p>
       ) : (
         <>
           <div className="px-2 md:px-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
             {photos.map((photo) => (
-              <ShowPhoto key={photo.id} photo={photo}>
+              <ShowPhoto key={photo.id} photo={photo} deleted={() => fetchPhotos(currentPage)}>
                 <div className="relative w-full h-40 rounded overflow-hidden border cursor-pointer">
                   <img
                     src={`http://localhost:4000/${photo.filename}`}

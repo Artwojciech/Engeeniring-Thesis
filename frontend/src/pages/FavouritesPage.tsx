@@ -136,7 +136,11 @@ export default function FavouritePage() {
         <>
           <div className="px-2 md:px-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
             {photos.map((photo) => (
-              <ShowPhoto key={photo.id} photo={photo} onFavouritesChange={() => fetchFavourites(currentPage)}>
+              <ShowPhoto 
+                key={photo.id}
+                photo={photo} 
+                onFavouritesChange={() => fetchFavourites(currentPage)}
+                deleted={() => fetchFavourites(currentPage)}>
                 <div className="relative w-full h-40 rounded overflow-hidden border cursor-pointer">
                   <img
                     src={`http://localhost:4000/${photo.filename}`}
