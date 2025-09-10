@@ -7,7 +7,7 @@ const { verifyAdmin } = require('../middleware/roleMiddleware')
 
 router.get('/:id', photoController.getPhoto);
 router.get('/category/:categoryName', photoController.getPhotosByCategory);
-router.post('/', verifyToken, verifyAdmin, upload.single('file'), photoController.addPhoto);
+router.post('/', verifyToken, verifyAdmin, upload.array('files', 10), photoController.addPhotos);
 router.put('/:id', verifyToken, verifyAdmin, photoController.editPhoto);
 router.delete('/:id', verifyToken, verifyAdmin, photoController.deletePhoto);
 

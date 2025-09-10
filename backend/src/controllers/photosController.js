@@ -27,26 +27,27 @@ const getPhotosByCategory = async (req, res) => {
   }
 };
 
-const addPhoto = async (req, res) => {
+const addPhotos = async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({ message: 'No file uploaded' });
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ message: 'No files uploaded' });
     }
 
     const { title, category } = req.body;
-    const photo = await photoService.createPhoto({
-      title,
-      filename: req.file.filename,
-      category
-    });
+    const photos = await Promise.all(
+      req.files.map((file) =>
+        photoService.createPhoto({
+          title,
+          filename: file.filename,
+          category,
+        })
+      )
+    );
 
-    res.status(201).json(photo);
+    res.status(201).json(photos);
   } catch (error) {
-    if (error.code === 'LIMIT_FILE_SIZE') {
-      return res.status(413).json({ message: 'file is too large' });
-    }
-    if (error.message.includes('Invalid file type')) {
-      return res.status(415).json({ message: error.message });
+    if (error.message === "Category not found") {
+      return res.status(404).json({ message: error.message });
     }
 
     res.status(400).json({ message: error.message });
@@ -75,7 +76,7 @@ const deletePhoto = async (req, res) => {
 module.exports = {
   getPhoto,
   getPhotosByCategory,
-  addPhoto,
+  addPhotos,
   editPhoto,
   deletePhoto
 };

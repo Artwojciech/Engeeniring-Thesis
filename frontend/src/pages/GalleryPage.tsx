@@ -12,8 +12,20 @@ import {
   PaginationEllipsis,
 } from "@/components/ui/pagination";
 import ShowPhoto from "@/components/custom/ShowPhoto";
+import { useAuth } from "@/hooks/useAuth";
+
+import { ArrowUpOnSquareIcon } from "@heroicons/react/24/outline";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import UploadForm from "@/components/custom/UploadForm";
 
 export default function GalleryPage() {
+  const { user } = useAuth();
+  const isAdmin = !!user?.is_admin;
+
   const [searchParams] = useSearchParams();
   const categoryName = searchParams.get("category") || "";
 
@@ -24,6 +36,8 @@ export default function GalleryPage() {
 
   const [title, setTitle] = useState("");
   const [delayTitle, setDelayTitle] = useState(title);
+
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -83,7 +97,7 @@ export default function GalleryPage() {
         </h1>
       </section>
 
-      <div className="flex justify-center mb-6">
+      <div className="flex justify-center mb-6 gap-10">
         <input
           type="text"
           value={title}
@@ -91,6 +105,27 @@ export default function GalleryPage() {
           placeholder="insert the title you are looking for..."
           className="w-[300px] border border-footerbg rounded-md px-3 py-2 text-[1rem] font-thin focus:outline-none focus:ring-2 focus:ring-accent"
         />
+        {isAdmin && (
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <button
+                className="flex items-center gap-2 border border-footerbg rounded-md px-3 py-2 text-[1rem] bg-homeside hover:bg-accent hover:text-homeside transition focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
+              >
+                Add Photos
+                <ArrowUpOnSquareIcon className="w-5 h-5" />
+              </button>
+            </DialogTrigger>
+            <DialogContent className="max-w-lg bg-homeside [&>button:first-of-type]:cursor-pointer">
+              <UploadForm
+                category={categoryName}
+                onSuccess={() => {
+                  setOpen(false);
+                  fetchPhotos(currentPage) 
+                }}
+              />
+            </DialogContent>
+          </Dialog>
+        )}
       </div>
 
       {loading ? (

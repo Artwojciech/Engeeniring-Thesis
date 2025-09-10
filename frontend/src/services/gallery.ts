@@ -58,18 +58,20 @@ export const getPhotosByCategory = async (
     throw new Error(message);
   }
 };
-export const addPhoto = async (
+export const addPhotos = async (
   title: string,
   category: string,
-  file: File
-): Promise<Photo> => {
+  files: File[]
+): Promise<Photo[]> => {
   try {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("category", category);
-    formData.append("file", file);
+    files.forEach((file) => {
+      formData.append("files", file); 
+    });
 
-    const res = await api.post<Photo>(`/photos`, formData, {
+    const res = await api.post<Photo[]>(`/photos`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

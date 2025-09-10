@@ -1,6 +1,8 @@
 const Photo = require('../models/photo');
 const Category = require('../models/category');
 const { Op } = require('sequelize');
+const path = require('path');
+const fs = require('fs');  
 
 const getPhotoById = async (id) => {
   const photo = await Photo.findByPk(id);
@@ -58,13 +60,17 @@ const deletePhoto = async (id) => {
   const photo = await Photo.findByPk(id);
   if (!photo) throw new Error('Photo not found');
 
-  const category = await Category.findByPk(photo.category_id);
-  if (!category) throw new Error('photo s category not found');
-
-  const filePath = path.join(__dirname, '..', '..', 'uploads', category.name, photo.filename);
-
-  if (fs.existsSync(filePath)) { 
-    fs.unlinkSync(filePath);
+  const filePath = path.join(__dirname, '..', '..', photo.filename);
+  try {
+    await fs.promises.unlink(filePath);
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      console.error(`File does not exist: ${filePath}`);
+    } else if (err.code === 'EACCES' || err.code === 'EPERM') {
+      console.error(`Permission denied when trying to delete file: ${filePath}`);
+    } else {
+      console.error(`Failed to delete file ${filePath}: ${err.message}`);
+    }
   }
 
   await photo.destroy();
