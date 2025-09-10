@@ -37,6 +37,7 @@ export default function UploadForm({ category, onSuccess }: UploadFormProps) {
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: { "image/jpeg": [], "image/png": [] },
         maxFiles: 10,
+        maxSize: 5 * 1024 * 1024,
         onDrop: (acceptedFiles) => {
             setValue("files", acceptedFiles, { shouldValidate: true });
         },
@@ -46,6 +47,9 @@ export default function UploadForm({ category, onSuccess }: UploadFormProps) {
             }
             if (fileRejections.some(fr => fr.errors.some(e => e.code === "file-invalid-type"))) {
                 toast.error("Invalid file type only JPEG and PNG are allowed");
+            }
+            if (fileRejections.some(fr => fr.errors.some(e => e.code === "file-too-large"))) {
+                toast.error("Maximum size of a single file is 5MB");
             }
         },
     });
