@@ -1,0 +1,13 @@
+services:
+  seed:
+    container_name: portfolio-seed
+    build:
+      context: ./backend
+      dockerfile: Seed.Dockerfile
+    image: portfolio-seed:1.1
+    environment:
+      - PG_DB=portfolio
+      - PG_USER=artwojciech
+      - PG_PASSWORD=postgres
+      - PG_HOST=db
+

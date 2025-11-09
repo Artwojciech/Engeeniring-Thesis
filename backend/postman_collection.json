@@ -1,0 +1,392 @@
+{
+	"info": {
+		"_postman_id": "your-collection-id",
+		"name": "Photography Portfolio API",
+		"description": "API collection for Photography Portfolio application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:4000/api",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "register"]
+						}
+					}
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/auth/refresh-token",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "refresh-token"]
+						}
+					}
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/auth/current",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "current"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "Get All Categories",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/categories",
+							"host": ["{{base_url}}"],
+							"path": ["categories"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Photos",
+			"item": [
+				{
+					"name": "Get Photo by ID",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/photos/:id",
+							"host": ["{{base_url}}"],
+							"path": ["photos", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Photos by Category",
+					"request": {
+						"method": "GET",
+						"url": {
+							"raw": "{{base_url}}/photos/category/:categoryName",
+							"host": ["{{base_url}}"],
+							"path": ["photos", "category", ":categoryName"],
+							"variable": [
+								{
+									"key": "categoryName",
+									"value": ""
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Add Photos",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "files",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/photos",
+							"host": ["{{base_url}}"],
+							"path": ["photos"]
+						}
+					}
+				},
+				{
+					"name": "Edit Photo",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Updated Title\",\n    \"description\": \"Updated Description\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/photos/:id",
+							"host": ["{{base_url}}"],
+							"path": ["photos", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Photo",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/photos/:id",
+							"host": ["{{base_url}}"],
+							"path": ["photos", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Favourites",
+			"item": [
+				{
+					"name": "Get User's Favourites",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/favourites",
+							"host": ["{{base_url}}"],
+							"path": ["favourites"]
+						}
+					}
+				},
+				{
+					"name": "Check if Photo is Favourite",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/favourites/:photoId",
+							"host": ["{{base_url}}"],
+							"path": ["favourites", ":photoId"],
+							"variable": [
+								{
+									"key": "photoId",
+									"value": ""
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Add to Favourites",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/favourites/:photoId",
+							"host": ["{{base_url}}"],
+							"path": ["favourites", ":photoId"],
+							"variable": [
+								{
+									"key": "photoId",
+									"value": ""
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Remove from Favourites",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/favourites/:photoId",
+							"host": ["{{base_url}}"],
+							"path": ["favourites", ":photoId"],
+							"variable": [
+								{
+									"key": "photoId",
+									"value": ""
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Change Username",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"newUsername\": \"newusername\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users/:id/username",
+							"host": ["{{base_url}}"],
+							"path": ["users", ":id", "username"],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"oldPassword\": \"currentpassword\",\n    \"newPassword\": \"newpassword\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/users/:id/password",
+							"host": ["{{base_url}}"],
+							"path": ["users", ":id", "password"],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					}
+				}
+			]
+		}
+	]
+}

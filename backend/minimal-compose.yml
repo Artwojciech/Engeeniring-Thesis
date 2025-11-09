@@ -1,0 +1,16 @@
+services:
+  db:
+    container_name: portfolio-db
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: portfolio
+      POSTGRES_USER: artwojciech
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always  #nie jestem pewny czy dalem to w dobrym miejscu
+
+volumes:
+  postgres_data:
