@@ -174,16 +174,17 @@ export default function ShowPhoto({ photo, children, onFavouritesChange, deleted
                 </p>
               </div>
             )}
-
-            <button
-              onClick={toggleFavourite}
-              disabled={favLoading}
-              className={`cursor-pointer absolute bottom-2 right-2 z-30 p-2 rounded-full transition focus:outline-none focus:ring-0 ${
-                isFavourite ? "bg-red-900 hover:bg-red-950" : "bg-black/70 hover:bg-black"
-              }`}
-            >
-              <HeartIcon className="w-5 h-5 text-white" />
-            </button>
+            {user && (
+              <button
+                onClick={toggleFavourite}
+                disabled={favLoading}
+                className={`cursor-pointer absolute bottom-2 right-2 z-30 p-2 rounded-full transition focus:outline-none focus:ring-0 ${
+                  isFavourite ? "bg-red-900 hover:bg-red-950" : "bg-black/70 hover:bg-black"
+                }`}
+              >
+                <HeartIcon className="w-5 h-5 text-white" />
+              </button>
+            )}
           </div>
 
           <DialogClose className="absolute top-0 right-0 p-1 bg-footerbg/50 hover:bg-footerbg/70 transition cursor-pointer focus:outline-none focus:ring-0">
